@@ -1,0 +1,37 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+class Person {
+public:
+	Person(int age,int height) {
+		age = age;
+		m_height = new int(height);
+		cout << "Person的有参构造函数调用" << endl;
+	}
+	Person(const Person &p) {
+		m_age = p.m_age;
+		//m_height = p.m_height;		原来的浅拷贝
+		m_height = new int(*p.m_height);	// 深拷贝解决问题
+	}
+	~Person() {							//运行过程中崩了，主要是因为浅拷贝，
+		if (m_height != NULL) {				//堆得存取方式也是先进后出
+			delete m_height;
+			m_height = NULL;		//防止野指针
+		}
+		cout << "Person的析构函数调用" << endl;
+	}
+	int *m_height;
+	int m_age;
+};
+void test() {
+	Person p1(18,160);
+	cout << "p1的年龄：" << p1.m_age << "身高为："<< *p1.m_height <<endl;
+	Person p2(p1);
+	cout << "p2的年龄：" << p2.m_age << "身高为：" << *p2.m_height << endl;
+}
+int main() {
+	test();
+	system("pause");
+	return 0;
+}
