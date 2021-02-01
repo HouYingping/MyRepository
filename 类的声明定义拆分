@@ -1,0 +1,31 @@
+// .h
+#pragma once      //避免重复包含
+#include<iostream>
+using namespace std;
+
+class Circle {
+	//只含有类的属性和行为的声明
+	int r;
+	void setR(int r);
+	int getR();
+	Point center;			//需要导入自定义的point头文件
+	void setCenter(Point center);
+	Point getCenter();
+};
+
+//.cpp
+#include"circle.h"
+void Circle::setR(int r) {
+	r = r;
+}
+int getR() {
+	return r;
+}
+void Circle::setCenter(Point center) {
+	center = center;
+}
+Point Circle::getCenter() {
+	return center;
+}
+
+//在运行文件中包含  .h 文件就可以普通执行了
