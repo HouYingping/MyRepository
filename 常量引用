@@ -1,0 +1,18 @@
+#include<iostream>
+using namespace std;
+void showValue(const int & a) {
+	//a = 1000;						只想打印，不修改
+	cout << "val= " << a << endl;
+}
+int main() {
+	//常量引用
+	//使用场景：用来修饰形参，防止误操作
+	int a = 10;
+	//int & ref = 10;	//引用必须引用一块合法的内存空间
+	const int & ref = 10;	// 编译器处理：int temp = 10; int & ref = temp;
+
+	//ref = 20;		// 加上const之后变为只读，不可以修改
+	showValue(a);
+	system("pause");
+	return 0;
+}
