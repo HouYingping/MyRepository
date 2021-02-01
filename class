@@ -15,7 +15,7 @@ const double PI = 3.14;
   struct     默认公共权限
 
 class Person{
-//定义属性和属性操作接口的顺序要严格
+//定义属性和属性操作接口的顺序不严格要求
 public:
   string name;
 protected:
