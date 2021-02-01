@@ -15,6 +15,9 @@ void func(int & a) {
 void func(const int &a) {
 	cout << "func(const int &a)" << endl;
 }
+//void func(int & a,int b=30) {
+//	cout << "func(int & a,int b=30)" << endl;
+//}	碰到默认参数，会出现参数二义性
 int main() {
 	int a = 10;
 	func(a);
