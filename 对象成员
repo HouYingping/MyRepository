@@ -1,0 +1,37 @@
+#include<iostream>
+#include<string>
+using namespace std;
+class Phone {
+public:
+	string PName;
+	Phone(string name):PName(name)
+	{
+		cout << "Phone的构造函数" << endl;
+	}
+	~Phone() {
+		cout << "Phone的析构函数" << endl;
+	}
+};
+class Person {
+public:
+	string name;
+	Phone phone;
+	Person(string name,string PName):name(name),phone(PName)
+	{	
+		
+		cout << "Person的构造函数" << endl;
+	}
+	~Person() {
+		cout << "Person的析构函数" << endl;
+	}
+};
+// 当其他类对象作为类成员，构造时先构造类对象，早构造自身，析构的顺序相反
+void test() {
+	Person p("hyp", "huawei");
+	cout << p.name << "拿着" << p.phone.PName << "手机" << endl;
+}
+int main() {
+	test();
+	system("pause");
+	return 0;
+}
