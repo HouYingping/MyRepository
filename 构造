@@ -1,0 +1,37 @@
+#include<iostream>
+#include<string>
+using namespace std;
+class Person{
+    int age;
+public:
+    Person(){
+        cout<<"无参构造"<<endl;
+    }
+    Person(int age){
+        age = age;
+        cout<<"有参构造"<<endl;
+    }
+    Person(const Person & p){
+        age = p.age;
+        cout<<"拷贝构造"<<endl;
+    }
+};
+int main(){
+    //注意1
+    Person p1;          //创建对象
+    // Person p2(10);   // 有参构造
+    Person p3(p1);      // 拷贝构造
+    Person p1();        //创建函数
+    
+    //注意2
+    Person(10);    //创建匿名对象
+    Person p4 = Person(p1);    //拷贝构造对象
+    Person(p1);   //不要利用拷贝构造函数初始化匿名对象，编译器会认为 Person (p1) === Person p1
+    
+    //注意3   隐式
+    Person p5 = 10;   // 就等价于 Person p5 = Person(10);
+    Person p6 = p3;   // 拷贝构造
+    
+    system("pause");
+    return 0;
+}
