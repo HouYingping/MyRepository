@@ -1,0 +1,49 @@
+#include <iostream>
+#include <string>
+using namespace std;
+const double PI = 3.14;
+
+//访问权限
+//公共权限    public      成员  类内可以访问   类外可以访问
+//保护权限    protected   成员  类内可以访问   类外不可以访问 儿子可以访问父亲的保护内容
+//私有权限    private     成员  类内可以访问   类外不可以访问 儿子不可以访问父亲的私有内容
+    成员属性设置为私有，可以自己控制读写权限
+    对于写权限，可以检测数据的有效性
+//struct、class的区别
+//默认权限不同
+  class      默认私有权限 
+  struct     默认公共权限
+
+class Person{
+public:
+  string name;
+protected:
+  string car;
+private:
+  int passwd;
+public:
+  void func(){
+    name = "张三";
+    car = "拖拉机";
+    passwd = 123456;
+  }
+  void show(){
+    cout<<"姓名："<<p.name<<endl;
+    cout<<"车："<<p.car<<endl;
+    cout<<"密码："<<p.passwd<<endl;
+  }
+};          //类的定义最后也有“;”
+int main(){
+  //实例化对象
+  Person p;
+  p.name = "李四";
+  p.car = "奔驰";     //保护权限内容，类外访问不到
+  p.passwd = "654321";   //私有权限内容，类外访问不到
+  cout<<"姓名："<<p.name<<endl;
+  cout<<"车："<<p.car<<endl;
+  cout<<"密码："<<p.passwd<<endl;
+  p.func();
+  p.show();
+  system("pause");
+  return 0;
+}
