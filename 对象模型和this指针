@@ -1,0 +1,45 @@
+#include<iostream>
+#include<string>
+using namespace std;
+// 成员变量和成员函数是分开存储的，
+// 只有非静态成员函数是对象上的
+
+/*
+this的作用：
+	解决名称冲突
+	返回对象本身用 *this
+*/
+class Person {
+
+};
+class Person2 {
+	int m_age;
+	static int height;
+};
+class Person3 {
+	int m_age;
+};
+class Person4 {
+	int m_age;
+	static int height;
+	void func() {}
+};
+
+void test() {
+	Person p1;
+	cout << "size of p1 = " << sizeof(p1) << endl;	//空对象占用空间为1字节，为了区分对象占内存的位置
+
+	Person2 p2;
+	cout << "size of p2 = " << sizeof(p2) << endl;	//有一个成员变量
+
+	Person3 p3;
+	cout << "size of p3 = " << sizeof(p3) << endl;	//有成员变量和静态变量，所占内存大小没有变
+
+	Person4 p4;
+	cout << "size of p4 = " << sizeof(p4) << endl;	//成员变量，成员函数，所占内存大小没有变
+}
+int main() {
+	test();
+	system("pause");
+	return 0;
+}
