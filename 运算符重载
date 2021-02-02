@@ -1,0 +1,94 @@
+#include<iostream>
+#include<string>
+using namespace std;
+//运算符重载	可以成员函数重载，也可以全局函数重载
+//operator+		加
+//operator<<	左移	这里其实就是输出函数，全局实现
+class Person {
+public:
+	Person() {}
+	Person(int age) {
+		this->age = age;
+	}
+	Person & operator+(Person &p) {
+		Person temp;
+		temp.age = this->age + p.age;
+		return temp;
+	}
+	int age;
+};
+// 输出只能全局函数实现， 才能保证编写格式  cout<<p, 而不是p<<cout
+// 结合友元，可以输出私有属性
+ostream& operator<<(ostream &cout, Person &p) {
+	cout << "age= " << p.age <<" hello C++ "<< endl;
+	return cout;
+}
+
+class MyInteger {
+	friend ostream& operator<<(ostream &cout, MyInteger myint);
+public:
+	MyInteger() {
+		my_num = 0;
+	}
+	//++i的实现
+	MyInteger& operator++() {
+		my_num++;
+		return *this;
+	}
+	//i++的实现
+	MyInteger operator++(int) {	// int代表占位参数，可以用于区分前后置递增
+		//记录原来的状态，用于最后返回
+		MyInteger temp = *this;
+		//实际属性值增加
+		my_num++;
+		//返回原值
+		return temp;
+	}
+	//--i的实现
+	MyInteger& operator--() {
+		my_num--;
+		return *this;
+	}
+	//i++的实现
+	MyInteger operator--(int) {	// int代表占位参数，可以用于区分前后置递增
+		MyInteger temp = *this;
+		my_num--;
+		return temp;
+	}
+private:
+	int my_num;
+};
+
+ostream& operator<<(ostream &cout, MyInteger myint) {
+	cout << "num = " << myint.my_num;
+	return cout;
+}
+
+void test() {
+	Person p1 = 18;
+	Person p2 = 20;
+	Person p3 = p1+p2;
+	cout << p3.age << endl;
+	cout << p1.age << endl;
+	cout << p2 << endl;
+}
+void test2() {
+	MyInteger myint;
+	cout << myint << endl;
+	cout << ++myint << endl;
+	cout << myint << endl;
+	//cout << ++(++(myint++)) << endl;
+	cout << myint++ << endl;		//不能连续操作对象的属性值
+	cout << myint << endl;
+	/*cout << --myint << endl;
+	cout << myint << endl;
+	cout << myint-- << endl;
+	cout << myint << endl;*/
+}
+
+int main() {
+	//test();
+	test2();
+	system("pause");
+	return 0;
+}
