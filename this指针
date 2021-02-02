@@ -1,0 +1,29 @@
+#include<iostream>
+#include<string>
+using namespace std;
+/*
+this的作用：
+	解决名称冲突
+	返回对象本身用 *this
+*/
+class Person {
+public:
+	Person(int age) {
+		this->age = age;
+	}
+	Person& addPerson(const Person &p) {		// 注意返回类型的不同导致的结果不同
+		age += p.age;
+		return *this;
+	}
+	int age;
+};
+void test() {
+	Person p = 10;
+	p.addPerson(p).addPerson(p);
+	cout << "p.age = " << p.age << endl;
+}
+int main() {
+	test();
+	system("pause");
+	return 0;
+}
