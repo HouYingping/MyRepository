@@ -1,0 +1,67 @@
+#include<iostream>
+#include<string>
+using namespace std;
+/*
+继承：
+	语法： class 子类 : 继承方式 父类
+		继承方式：公共继承		无法访问父类私有属性，其余可访问且与父类保持一致
+				  保护继承		无法访问父类私有属性，其余可访问，但都变为保护属性
+				  私有继承		无法访问父类私有属性，其余可访问，但都变为私有属性
+//父类中所有的非静态成员都会被子类继承下来，只是能不能访问的问题
+	工具查看对象模型：	visual studio——>开发人员命令提示符——>切换到.cpp文件目录，然后执行 cl /d1 reportSingleClassLayout_(类名) .cpp(文件名)
+*/
+class Base {
+public:
+	int m_A;
+protected:
+	int m_B;
+private:
+	int m_C;
+};
+class Son1:public Base
+{
+public:
+	int m_D;
+	void func() {
+		m_A = 10;	
+		m_B = 10;
+		//m_C = 10;
+	}
+};
+class Son2 :protected Base
+{
+public:
+	void func() {
+		m_A = 10;
+		m_B = 10;
+		//m_C = 10;
+	}
+};
+class Son3 :private Base
+{
+public:
+	void func() {
+		m_A = 10;
+		m_B = 10;
+		//m_C = 10;
+	}
+};
+void test() {
+	Son1 s1;
+	//s1.m_A = 10;
+	//s1.m_B = 10;		//仍是保护权限
+
+	//Son2 s2;
+	//s2.m_A = 10;		//变为保护权限
+	//s2.m_B = 10;		//仍是保护权限
+
+	//Son3 s3;
+	//s3.m_A = 10;		//变为私有权限
+	//s3.m_B = 10;		//变为私有权限
+	cout << "son1的大小可以看出子类的继承情况：" <<sizeof(s1) << endl;
+}
+int main() {
+	test();
+	system("pause");
+	return 0;
+}
