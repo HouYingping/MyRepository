@@ -78,7 +78,7 @@ void test2() {
 	cout << ++myint << endl;
 	cout << myint << endl;
 	//cout << ++(++(myint++)) << endl;
-	cout << myint++ << endl;		//不能连续操作对象的属性值
+	cout << myint++ << endl;		//不能连续操作对象的属性值，不过，原本整数也不支持这样的计算，这里稍有不同
 	cout << myint << endl;
 	/*cout << --myint << endl;
 	cout << myint << endl;
