@@ -5,6 +5,7 @@ using namespace std;
 this的作用：
 	解决名称冲突
 	返回对象本身用 *this
+每一个成员变量和成员函数内部都默认有一个this指针
 */
 class Person {
 public:
