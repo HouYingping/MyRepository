@@ -1,0 +1,83 @@
+#include<iostream>
+#include<string>
+using namespace std;
+/*
+友元的目的是让一个函数或者类访问另一个类的私有成员
+关键字：friend
+实现：全局函数做友元，类做友元，成员函数做友元
+*/
+class Building {
+	//在类中设置，告诉类他的好基友都有谁
+	friend void goodGay(Building *building);
+	friend class GoodGay;
+	friend void GoodGay2::visit();
+public:
+	Building();
+	string m_SittingRoom;
+private:
+	string m_BedRoom;
+};
+//类外写成员函数
+Building::Building() {
+	m_SittingRoom = "客厅";
+	m_BedRoom = "卧室";
+}
+
+//全局函数
+void goodGay(Building *building) {
+	cout << "好基友全局函数 正在访问：" << building->m_SittingRoom << endl;
+	cout << "好基友全局函数 正在访问：" << building->m_BedRoom << endl;
+}
+
+//类
+class GoodGay {
+public:
+	GoodGay();
+	void visit();		// 在类的外部实现，也需要在内部进行声明
+	Building *building;
+};
+GoodGay::GoodGay() {
+	//创建建筑物对象
+	building = new Building;
+}
+void GoodGay::visit() {
+	cout << "好基友-类 正在访问：" << building->m_SittingRoom << endl;
+	cout << "好基友-类 正在访问：" << building->m_BedRoom << endl;
+}
+
+//成员函数
+class GoodGay2{
+public:
+	GoodGay2() {
+		building = new Building;
+	}
+	void visit()		// 可以访问Building中私有成员
+	{
+		cout << "好基友-成员函数 正在访问：" << building->m_SittingRoom << endl;
+		cout << "好基友-成员函数 正在访问：" << building->m_BedRoom << endl;
+	}
+	void visit2()		// 不能访问Building中私有成员
+	{
+		cout << "普通成员函数 想要访问：" << building->m_SittingRoom << endl;
+		cout << "普通成员函数 想要访问：" << building->m_BedRoom << endl;
+	}
+	Building *building;
+};
+
+
+void test() {
+	Building building;
+	goodGay(&building);
+
+	GoodGay gg;
+	gg.visit();
+
+	GoodGay2 gg2;
+	gg2.visit();
+	gg2.visit2();
+}
+int main() {
+	test();
+	system("pause");
+	return 0;
+}
