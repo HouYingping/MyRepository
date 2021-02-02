@@ -1,0 +1,27 @@
+#include<iostream>
+#include<string>
+using namespace std;
+class Person {
+public:
+	void showClassName() {
+		cout << "this is Person class" << endl;
+	}
+	void showPerson() {
+		if (this == NULL) {
+			return;
+		}
+		//错误原因是传入的指针为空
+		cout << "age = " << this->age << endl;
+	}
+	int age;
+};
+void test() {
+	Person *p = NULL;
+	p->showClassName();
+	p->showPerson();		//空指针异常
+}
+int main() {
+	test();
+	system("pause");
+	return 0;
+}
