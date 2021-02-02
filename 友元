@@ -54,7 +54,7 @@ void GoodGay::visit() {
 	cout << "好基友-类 正在访问：" << building->m_BedRoom << endl;
 }
 
-//成员函数
+//成员函数  较为严格，顺序必须是“自上而下”,这也是为什么这里要将成员函数的实现写在类外边的原因
 GoodGay2::GoodGay2() {
 	building = new Building;
 }
