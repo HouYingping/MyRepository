@@ -4,9 +4,11 @@ using namespace std;
 //先创建父类对象然后才创建子类对象
 //如果想要通过子类对象访问到父类中的同名成员，需要加作用（父类名：：）
 //否则 直接 调用的是自己的（“就近原则”）
+// 静态同名变量同样如此
 class Base {
 public:
 	int m_A;
+	static int m_B;
 	Base() {
 		m_A = 100;
 		cout << "这是父类的构造函数" << endl;
@@ -15,6 +17,7 @@ public:
 		cout << "这是父类的析构函数" << endl;
 	}
 };
+int Base::m_B = 100;
 class Son : public Base
 {
 public:
@@ -26,12 +29,21 @@ public:
 		cout << "这是子类的析构函数" << endl;
 	}
 	int m_A;
+	static int m_B;
 };
+int Son::m_B = 200;			// 还需要有数据类型
 void test() {
 	//Base base;
 	Son son;
 	cout << "Son 的 m_A = " << son.m_A << endl;
 	cout << "Base的m_A = " << son.Base::m_A << endl;
+
+	//静态变量
+	cout << "Son 的 m_B = " << son.m_B << endl;
+	cout << "Base的m_B = " << son.Base::m_B << endl;
+	cout << "通过类名访问：" << endl;
+	cout << "Son 的 m_B = " << Son::m_B << endl;		// 必须通过域名（类：：_）才能访问，而不是类名._
+	cout << "Base的m_B = " << Son::Base::m_B << endl;
 }
 int main() {
 	test();
