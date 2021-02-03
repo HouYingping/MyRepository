@@ -1,0 +1,28 @@
+#include<iostream>
+#include<string>
+using namespace std;
+//虚继承：多用于菱形继承中，避免继承重复的变量，造成资源浪费
+// 虚继承会创建虚拟表（vbtable），根据虚指针（vbptr）指向内存中的唯一空间
+//可以通过“开发人员命令提示符” 查看
+class Animal {
+public:
+	int m_Age;
+
+};
+class Sheep :virtual public Animal{};
+class Tuo : virtual public Animal{};
+class SheepTuo:public Sheep,public Tuo {};
+void test() {
+	SheepTuo st;
+	st.Sheep::m_Age = 100;
+	st.Tuo::m_Age = 200;
+	//st.m_Age = 18;
+	cout << "st.Sheep::m_Age = " << st.Sheep::m_Age << endl;
+	cout << "st.Tuo::m_Age = " << st.Tuo::m_Age << endl;
+	//cout << "st.m_Age = " << st.m_Age << endl;
+}
+int main() {
+	test();
+	system("pause");
+	return 0;
+}
