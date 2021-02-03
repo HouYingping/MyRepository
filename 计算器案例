@@ -1,0 +1,83 @@
+#include<iostream>
+#include<string>
+using namespace std;
+/*
+多态的好处
+	组织结构清晰
+	可读性强
+	对于前期和后期扩展以及维护性高
+*/
+class Calculator {
+public:
+	int getResult(string oper) {
+		if (oper=="+") {
+			return m_A + m_B;
+		}
+		else if (oper == "-") {
+			return m_A - m_B;
+		}
+		else if (oper=="*") {
+			return m_A * m_B;
+		}
+		else if (oper == "/") {
+			return m_A / m_B;
+		}
+	}
+	int m_A;
+	int m_B;
+};
+void test1() {
+	Calculator cal;
+	cal.m_A = 1;
+	cal.m_B = 2;
+	cout << "1+2 = " << cal.getResult("+") << endl;
+	cout << "1-2 = " << cal.getResult("-") << endl;
+	cout << "1*2 = " << cal.getResult("*") << endl;
+	cout << "1/2 = " << cal.getResult("/") << endl;
+}
+class AbstractCalculator {
+public:
+	virtual int getResult() {
+		return 0;
+	}
+};
+class ADDCalculator :public AbstractCalculator {
+public:
+	int getResult(int a,int b) {
+		return a + b;
+	}
+};
+class SUBCalculator :public AbstractCalculator {
+public:
+	int getResult(int a, int b) {
+		return a - b;
+	}
+};
+class MULCalculator :public AbstractCalculator {
+public:
+	int getResult(int a, int b) {
+		return a * b;
+	}
+};
+class DIVDCalculator :public AbstractCalculator {
+public:
+	int getResult(int a, int b) {
+		return a / b;
+	}
+};
+void test2() {
+	ADDCalculator adc;
+	cout << adc.getResult(1, 2) << endl;
+	SUBCalculator sbc;
+	cout << sbc.getResult(1, 2) << endl;
+	MULCalculator mulc;
+	cout << mulc.getResult(1,2) <<endl;
+	DIVDCalculator divdcal;
+	cout << divdcal.getResult(2, 1) << endl;
+}
+int main() {
+	//test1();
+	test2();
+	system("pause");
+	return 0;
+}
