@@ -1,0 +1,29 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+//抽象类（只要有一个纯虚函数就是抽象类）
+class Base {
+public:
+	//纯虚函数
+	virtual void func() = 0;
+};
+class Son : public Base{
+public:
+	void func() {
+		cout << "抽象类实现" << endl;
+	}
+};
+void test() {
+	Son son;
+	/*Son *son = new Son();
+	son->func();*/
+	son.func();
+}
+
+int main() {
+	test();
+	//test2();
+	system("pause");
+	return 0;
+}
