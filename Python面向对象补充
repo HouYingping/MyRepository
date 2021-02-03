@@ -1,0 +1,78 @@
+import sys
+'''
+多继承中如果父类存在多个同名变量
+class A(B,C,D)
+
+访问父类B
+super(A,obj)._   /   super()._  
+访问父类C
+super(B,obj)._
+访问父类D
+super(C,obj)._
+
+python中子类在实例化的时候并不会创建父类对象，而只是默认会调用父类的构造方法进行父类的逻辑初始化，
+    且多继承时只会默认调用第一个父类的构造函数
+析构方法也是，会先调用父类的
+
+__dict__  无法查出继承属性
+dir(obj)    所有有效属性
+'''
+class GrandFather:
+    m_C = 60
+    def __init__(self):
+        print("这里是GrandFather的构造方法")
+    def __del__(self):
+        print("这里是GrandFather的析构方法")
+class GrandMother:
+    m_C = 80
+    def __init__(self):
+        print("3",id(self))             #  查看地址
+        print("这里是GrandMother的构造方法")
+    def __del__(self):
+        print("这里是GrandMother的析构方法")
+class Father(GrandFather):
+    m_A = 10
+    m_C = 70
+    def __init__(self):
+        self.m_A = 10
+        super().__init__()
+        print("这里是Father的构造方法")
+    def __del__(self):
+        print("这里是Father的析构方法")
+class Mother(GrandMother):
+    m_A = 20
+    def __init__(self):
+        self.m_A = 20
+        super().__init__()
+        print("2",id(self))             # 查看内存地址
+        print("这里是Mother的构造方法")
+    def __del__(self):
+        super().__del__()
+        print("这里是Mother的析构方法")
+    # def __new__(cls, *args, **kwargs):
+    #     print("Mother的内存开辟方法")
+    #     return super().__new__(cls, *args, **kwargs)
+class Son(Mother,Father,):
+    m_B = 50
+    def __init__(self):
+        self.m_E = 100
+        # Father.__init__(self)
+        super(Son,self).__init__()
+        print("1",id(self))             # 查看子类对象的内存地址
+        print("这里是Son的构造方法")
+    def __del__(self):
+        super().__del__()
+        print("这里是Son的析构方法")
+son = Son()
+print(son.m_A)
+print('son.__dict__',son.__dict__)      # 没有父亲类的m_A 因为没有实现父亲类的逻辑初始化
+print('dir(son)',dir(son))
+print('Son.__dict__',Son.__dict__)
+print("dir(Son):",dir(Son))
+print(super(Mother,son).m_A)
+print(id(super(Mother,son).m_A))        # 对象的不同
+print("类名访问",id(Mother.m_A),id(Son.m_A))       # 类名访问，同一个对象
+# print("类变量所占内存大小",sys.getsizeof(Son))
+# print("对象变量所占内存大小",sys.getsizeof(son))    # 都没什么卵用
+print("类变量所占内存大小",Son.__sizeof__(Son))
+print("对象变量所占内存大小",son.__sizeof__())
