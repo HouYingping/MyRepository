@@ -6,7 +6,7 @@ using namespace std;
 /*
 文件：
 	文本文件		文件以文本的ASCII码形式存储在计算机中
-	二进制文件		
+	二进制文件			比较恶心，读方式和写方式必须一致，否则易出现错误，尤其是自定义类
 操作文件的三大类：
 	ofstream:	写操作
 	ifstream	读操作
@@ -16,7 +16,7 @@ using namespace std;
 	ios::out	写
 	ios::ate	初始位置：文件尾
 	ios::app	追加方式写文件
-	ios::trunc	如果文件存在先删除，在创建
+	ios::trunc	如果文件存在先删除，再创建
 	ios::binary	二进制方式
 */
 
@@ -27,6 +27,7 @@ void write() {
 	ofs.open("E:\\myCode\\C++\\day02\\test.txt", ios::out);
 	//4、读写数据
 	ofs << "hyp is a good boy!" << endl;
+	ofs.put('Y');			// 写入单个字符
 	//5、关闭文件
 	ofs.close();
 }
@@ -43,11 +44,12 @@ void read() {
 	else {
 		//4、读数据
 		////(1)
-		//char buf[1024] = { 0 };
-		//while (ifs>>buf)
-		//{
-		//	cout << buf << endl;
-		//}
+		char buf[1024] = { 0 };
+		while (ifs>>buf)		// 读取到“空白符号（非空）”就会停下来
+		{	
+			printf("执行了");
+			cout << buf << endl;
+		}
 
 		//(2)
 		//char buf[1024] = { 0 };
@@ -64,19 +66,47 @@ void read() {
 		}*/
 
 		//(4)	不建议用	一个字符一个字符去读
-		char c;
-		while ((c = ifs.get())!=EOF)	// EOF  end of file
-		{
-			cout << c;
-		}
+		//char c;
+		//while ((c = ifs.get())!=EOF)	// EOF  end of file
+		//{
+		//	cout << c;
+		//}
 
 		//5、关闭文件
 		ifs.close();
 	}
 }
+class Person {
+public:
+	int age;
+	char name[64];		// 不适用string 类型，易出现错误
+};
+void writeBinary() {
+	/*ofstream ofs;
+	ofs.open("E:\\myCode\\C++\\day02\\test.txt", ios::out | ios::binary);*/
+	ofstream ofs("E:\\myCode\\C++\\day02\\test.txt", ios::out | ios::binary);
+	Person p = {23,"xjc"};
+	ofs.write((const char *)&p, sizeof(Person));	//将写入对象转成“字符地址”（这里并不局限于字符数组或者字符串）	写入的数据大小
+	ofs.close();
+}
+void readBinary() {
+	ifstream ifs("E:\\myCode\\C++\\day02\\test.txt", ios::in | ios::binary);
+	if (!ifs) {			// 如果文件打开失败，那么对象为空（NULL）
+		cout << "文件名错误或者地址错误" << endl;
+		return;
+	}
+	else {
+		Person p;
+		ifs.read((char *)&p, sizeof(Person));
+		cout << "姓名：" << p.name << " 年龄：" << p.age << endl;
+	}
+	ifs.close();
+}
 int main() {
-	//write();
+	//write(); 
 	read();
+	//writeBinary();
+	//readBinary();
 	system("pause");
 	return 0;
 }
