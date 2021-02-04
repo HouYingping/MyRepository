@@ -1,0 +1,33 @@
+#include<iostream>
+#include<string>
+using namespace std;
+typedef unsigned int uint;		// 给类型(只是)起个别名  python 中的 import...as..
+#define UINT unsigned int		// 也可以实现上面的作用
+
+// 枚举类型是常量，默认值从0开始，往下依次加1		可以认为就是整型数据
+// 枚举元素也可以进行初始化赋值,	不建议倒序只给前几个枚举元素赋值，会使得前后数据值重复，不易区分
+// 
+enum Esex
+{
+	ESex_Male,		// 逗号
+	//ESex_FMale
+	ESex_FMale = 10
+};
+struct Student {
+	string name;
+	int age;
+	char sex;
+};
+int main(int argc,char* argv[]) {
+	Student student;
+	student.age = 20;
+	student.name = "xjc";
+	student.sex = ESex_FMale;
+	cout << ESex_Male << endl;
+	cout << ESex_FMale << endl;
+
+	uint a = 18;
+	cout << a << endl;
+	system("pause");
+	return 0;
+}
