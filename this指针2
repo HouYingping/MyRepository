@@ -1,0 +1,32 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+#pragma pack(push)
+#pragma pack(4)			// 内存对齐方式
+/*
+ C++ 中每个对象所占的内存空间只是该对象的数据成员所占用的空间的和，而不包括函数代码所占用的存储空间
+ 对于某个类的多个对象而言，不同的是对象的数据成员，函数成员都是一样的代码，所以没有必要每个对象都保存一份成员函数代码。
+ 而不同对象调用相同的函数时，仍然能够找到对应的成员变量，这就是this指针的功劳
+*/
+class Student {
+public:
+	char name[50];
+	char sex;
+	int grade;
+	int age;		//	实际内存占用59字节
+	void func(int age) {
+		//age = age;		// 这时候就需要this指针，否则赋值失效
+		this->age = age;
+	}
+};
+int main() {
+	Student stu;
+	cout << sizeof(stu) << endl;
+
+	stu.func(25);
+	cout << stu.age << endl;
+	system("pause");
+	return 0;
+}
+#pragma pack(pop)
