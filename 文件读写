@@ -18,8 +18,20 @@ using namespace std;
 	ios::app	追加方式写文件
 	ios::trunc	如果文件存在先删除，再创建
 	ios::binary	二进制方式
+ifs.seekg(0,ios::end);
+int file_size = ifs.readg();		就可以知道文件的大小
 */
 
+/*
+文件内部指针			记录文件的读写位置	， 游标
+tellg()						返回读取文件指针的当前位置
+tellp()						返回写入文件指针的当前位置
+seekg(指针偏移量)			设置读取文件时指针的位置
+seekg(指针偏移量,参考位置)	设置读取文件指针到相对的位置
+seekp(指针偏移量)			设置写入文件时指针的位置
+seekp(指针偏移量,参考位置)	设置写入文件时指针相对的位置
+	参考位置：	ios::beg		ios::cur		ios::end
+*/
 void write() {
 	//2、创建流对象
 	ofstream ofs;
@@ -27,6 +39,8 @@ void write() {
 	ofs.open("E:\\myCode\\C++\\day02\\test.txt", ios::out);
 	//4、读写数据
 	ofs << "hyp is a good boy!" << endl;
+	char str[] = "hyp is handsome";
+	ofs.write(str, sizeof(str));
 	ofs.put('Y');			// 写入单个字符
 	//5、关闭文件
 	ofs.close();
@@ -47,9 +61,18 @@ void read() {
 		char buf[1024] = { 0 };
 		while (ifs>>buf)		// 读取到“空白符号（非空）”就会停下来
 		{	
-			printf("执行了");
+			//printf("执行了");
 			cout << buf << endl;
 		}
+
+		// 还可以通过good()判断读取情况
+		/*if (!ifs.good()) {		或者		ifs.bad()	ifs.fail()		0/1
+			return;
+		}*/
+
+		//判断是否读取到文件末尾
+		// ifs.eof();		0/1
+
 
 		//(2)
 		//char buf[1024] = { 0 };
