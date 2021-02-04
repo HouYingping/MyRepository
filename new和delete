@@ -19,7 +19,7 @@ int main(){
 
 	int** pointer = &nums;		// 指向指针的指针
 	
-	Person* p = new Person{ "hyp",23 };
+	Person* p = new Person{ "hyp" ,23};		// 默认是按照变量定义的顺序记性初始化
 	cout << "size of num：" << sizeof(*num) << endl;
 	nums[20] = 20;
 	nums[10] = 10;
@@ -27,6 +27,7 @@ int main(){
 	cout << sizeof(nums) << endl;						// 通过指针无法获取数组的长度,可以使用引用
 	cout << "size of nums2：" << sizeof(nums2) << endl;
 	cout << "size of p：" << sizeof(*p) << endl;
+	cout << p->age << endl;
 
 	system("pause");
 	return 0;
