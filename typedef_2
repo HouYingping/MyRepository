@@ -1,0 +1,43 @@
+#include<iostream>
+#include<string>
+using namespace std;
+/*
+typedef 是存储类关键字，使用的时候不能和其他的存储类关键字并用
+#define 只是简单的字符串替换，而typedef是给一个类型起别名
+eg:
+	typedef char* pStr1;
+	#define pStr2 char*
+	pStr1 s1,s2;
+	pStr2 s3,s4;
+	s1,s2,s3被定义为char*，而s4则被定义成了 char
+
+复杂的变量声明及定义
+右左法则
+从变量名看起，先往右，再往左，碰到圆括号就调转阅读的方向；括号内分析完就跳出括号，还是先右后左的顺序。如此循环，直到分析完整个定义
+eg:
+	float (* (*fp) (int, int, float)) (int);
+	分析：变量名fp,往右看是圆括号，调转方向往左看到*号，说明fp是一个指针；跳出内层圆括号，往右看是参数列表，说明fp是一个函数指针，接着往左看
+是*号，说明指向的函数返回值是指针；再跳出外层圆括号，往右看还是参数列表，说明返回的指针是一个函数指针，该函数有一个int类型的参数，返回值类型是
+float。即：fp是一个指向函数的指针，该函数接受3个参数（int，int和float），且返回一个纸箱函数的指针，该函数接受一个整型参数并返回一个float。
+*/
+void(*b[10])(void(*)());	//复杂定义
+//先替换右边括号里的参数，将void(*)()的类型起个别名pParam
+typedef void(*pParam)();
+//在替换左边的变量吧，为b的类型起个别名B
+typedef void(*B)(pParam);
+
+void say_hi() {
+	cout << "hello" << endl;
+}
+void test(pParam) {
+	say_hi();
+}
+int main() {
+	B b[10];
+	for (int i = 0;i < 10;i++) {
+		b[i] = &test;
+	}
+	b[0](say_hi);
+	system("pause");
+	return 0;
+}
