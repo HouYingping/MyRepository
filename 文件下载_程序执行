@@ -44,7 +44,7 @@ int main() {
 	SHELLEXECUTEINFO ShellInfo = { 0 };
 	ShellInfo.cbSize = sizeof(SHELLEXECUTEINFO);
 	ShellInfo.lpVerb = _T("open");
-	ShellInfo.lpFile = _T("E:\\myCode\\C++\\day02\\破坏神.jpg");
+	ShellInfo.lpFile = _T("E:\\myCode\\C++\\day02\\破坏神.jpg");	// 可以是指定的.exe路径（有环境变量可以简写）
 	ShellInfo.nShow = SW_SHOW;
 	ShellExecuteEx(&ShellInfo);
 
