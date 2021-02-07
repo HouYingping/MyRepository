@@ -1,0 +1,53 @@
+#include<iostream>
+#include<string>
+#include<tchar.h>	//宽字符存储的时候使用
+#include<Windows.h>		// 下载文件函数需要导入的头文件
+#pragma comment(lib,"Urlmon.lib")
+
+using namespace std;
+/*
+HRESULT URLDownloadToFile(pCaller,szURL,szFileName,dwReserved,lfnCB)
+	pCaller：ActiveX控件的接口指针，如果当前 程序不是ActiveX控件就写NULL
+	szURL：	下载的URL地址
+	szFileName：下载后文件保存的地址以及名字
+	dwReserved：保留字段，必须为0
+	lfnCB：下载进度状态回调接口的指针。如果要实时监视下载文件的状态那么就要设置这个参数
+返回值结果其实就是LONG类型
+*/ 
+
+/*
+bool ShellExecuteEx(cbsize,fmask,hwnd,lpVerb,lpFile,)		可以用该函数打开文件或执行程序
+	cbsize：sizeof(SHELLEXECUTEINFO)
+	fmask
+	hwnd：父窗口句柄，可以为NULL
+	lpVerb：指定函数执行的动作，edit(用编辑器打开lpFile指定的文档,如不不是文档会报错)，explore（浏览器打开），find（搜索lpDirectory）指定的目录
+								open(打开lpFile指定的文件，可以是文件或文件夹),print(打印lpFile,如果lpFile不是文档，则则函数失败)
+								properties（显示属性），runas(请求管理员权限运行)，NULL（执行默认“open”操作）
+	lpFile：指定文件路径
+	lpParameters：参数传递
+	lpDIrectory：工作目录
+	nShow：显示方式（可隐藏）
+
+*/ 
+
+int main() {
+	HRESULT hret =  URLDownloadToFile(NULL,_T("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fp5.qhimg.com%2Ft010302338f4a620d70.jpg%3Fsize%3D870x481&refer=http%3A%2F%2Fp5.qhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1615254497&t=23737d0344365ca9b2e3617ed0355e17"),
+		_T("E:\\myCode\\C++\\day02\\破坏神.jpg"),0,NULL);
+	// _T() 定义字符串的时候，保证兼容性，从ASCII编码类型到Unicode编码类型转换的时候需要修改程序
+	//_T() 得到的Unicode字符串每个字符为16bit（宽字符串），一般为ASCII码，每个字符8bit
+	//if (hret == S_OK) {
+	//	MessageBox(NULL,_T("下载成功！"),_T("success"),MB_OK);		//窗口显示
+	//}
+	//else {
+	//	MessageBox(NULL, _T("下载失败！"), _T("fail"), MB_OK);
+	//}
+	SHELLEXECUTEINFO ShellInfo = { 0 };
+	ShellInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+	ShellInfo.lpVerb = _T("open");
+	ShellInfo.lpFile = _T("E:\\myCode\\C++\\day02\\破坏神.jpg");
+	ShellInfo.nShow = SW_SHOW;
+	ShellExecuteEx(&ShellInfo);
+
+	//system("pause");
+	return 0;
+}
