@@ -1,0 +1,42 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+/*
+普通函数和模板函数比较：
+(1)普通函数调用可以发生隐式类型转换
+(2)函数模板 用自动类型推导，不可以发生隐式类型转换
+(3)函数模板 用显示指定类型，可以发生影视类型转换
+*/
+/*
+普通函数与模板函数可以发生重载
+如果函数模板和普通模板都可以调用，优先调用普通函数
+可以通过 空模板参数列表 强制调用 函数模板
+如果模板函数能够产生更好的匹配，优先调用函数模板
+*/
+
+int add(int a,int b) {
+	return a+b;
+}
+template<class T>
+T add(T a,T b) {
+	//cout << "纯模板函数" << endl;
+	return a + b;
+}
+template<class T>
+T add(int a, T b) {
+	cout << "混合型" << endl;
+	return a + b;
+}
+int main() {
+	int a = 1;
+	int b = 2;
+	float c = 2.5;
+	cout << add(a, b) << endl;
+	cout << "强制调用函数模板:";
+	cout << add<>(a, b) << endl;  //空模板参数列表
+	cout << add(b, c) << endl;
+
+	system("pause");
+	return 0;
+}
