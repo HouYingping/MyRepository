@@ -1,0 +1,82 @@
+#include<iostream>
+#include<string>
+using namespace std;
+// MSDN 联机帮助文档，查询API，函数等
+// VC 驿站
+
+// C++中的字符串是可以改变的，但是“+”拼接的时候是在前面的字符串上进行修改的
+int main() {
+	string str;
+	string str2("hello");
+	cout << "str2 " << str2 << endl;
+
+	string str3(3, 'c');
+	cout << "str3 "<< str3 << endl;
+
+	char sz[] = "hello C++";
+	string str4(sz);
+	cout << "str4 " << str4 << endl;
+	//=========================================
+	string str5;
+	str5 = "hello cctry.com";
+	char ch = str5.at(0);
+	cout << "ch: " << ch << endl;
+	cout << "str5[0]:  " << str5[0] << endl;
+
+	const char *p = str5.c_str();				// string -> char
+	cout << "str to char *: " << p << endl;
+
+	//字符串信息
+	cout << "str长度: " << str5.size() << endl;
+	cout << "str是否为空: " << str5.empty() << endl;
+	str5.clear();
+	cout << "清空：" << str5.empty() << endl;
+	str5.assign( sz,5);			// str2.assign(str1[[,start],num])	 str1中取（可从start开始）取num个字符赋值给str2
+	cout << "assign赋值：" << str5 << endl;
+
+	//拼接
+	cout << "+拼接字符串: " << str5 + " C++" << endl;
+	cout << "append拼接字符串: " << str5.append(" C++") << endl;	//append(char *s[,num]) 可以是指定拼接的字符串的前n个字符
+																	//append(string s)
+																	//append(int n,char ch)
+																	//append(string s,int pos,int n)、
+	cout << "拼接前的地址" << &str5 << endl;
+	cout << "拼接后的地址" << &(str5 +="C++") << endl;
+
+	// 值比较	依次比较对应位置上字符的ACII值
+	//==，!=,>= ,<=
+	//str1.compare(str2)	compare(int pos,int n,str2)		compare(int pos1,int n1,str2,int pos2,int n2)
+	
+	//取子串
+	cout << "获取字串：" << str4.substr(6,3) << endl;	// str.substr(int pos,int num)
+
+	//查找
+	// 参数2是开始查找的位置，并不会影响结果（字符在原来字符串中的位置）
+	cout << "o字符在str4中的位置：" << str4.find('o', 3) << endl;
+	cout << "o字符在str4中的位置：" << str4.find("hello") << endl;
+	cout << "反向查找hello的位置：" << str4.rfind("hello") << endl;
+	cout << "找不到时候的返回值：" << str4.find("z") << endl;		// 不是-1
+
+	//替换
+	cout << "替换前的地址：" << &str4 << endl;
+	cout << "替换C++为Python：" << str4.replace(6,3,"Python") << endl;		// 返回的使其自身,即修改了自身
+									//	replace(int pos,int num,char/str)	删除pos开始的num个字符，然后插入字符串s
+									//	replace(int pos,int num1,str,int num2)	..., 插入s的前num2个字符
+									//  replace(int pos,int num1,int num2,char c)  插入num2个字符c
+	cout << "替换后的地址：" << &str4 << endl;
+
+	//插入
+	cout << "插入内容:" << str4.insert(0, "I say ") << endl;
+									// insert(int pos,int num,char c)	在pos位置插入num个字符c
+	
+	//删除
+	//erase(int start,int stop);	//删除[start,stop)之间的字符串
+	//erase(int pos);				// 删除pos位置及之后的字符
+	//erase(int pos,int num
+	cout << "删除str5中小标为5的字符：" << str5.erase(8) << endl; 
+	cout << "删除str5中小标为5的字符：" << str5.erase(1,4) << endl;
+	cout << str5 << endl;
+
+	system("pause");
+	return 0;
+}
