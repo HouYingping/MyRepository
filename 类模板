@@ -1,0 +1,48 @@
+#include<iostream>
+#include<string>
+using namespace std;
+/*
+类模板与函数模板区别：
+1.类模板没有自动类型推导的在使用方式
+2.类模板在模板参数列表中可以偶遇默认参数
+*/
+
+template<typename nameType,typename ageType>
+class Person {
+public:
+	nameType name;
+	ageType age;
+	Person(nameType name, ageType age) {
+		this->age = age;
+		this->name = name;
+	}
+	void showInfo() {
+		cout << "name: " << name << " age: " << age << endl;
+	}
+};
+template<typename nameType, typename ageType = int>
+class Person2 {
+public:
+	nameType name;
+	ageType age;
+	Person2(nameType name, ageType age) {
+		this->age = age;
+		this->name = name;
+	}
+	void showInfo() {
+		cout << "name: " << name << " age: " << age << endl;
+	}
+};
+void test() {
+	//Person p("tom", 23);		// 类模板不会给你推导
+	Person<string,int> p("孙悟空", 999999);
+	Person2<string> p2("猪八戒",222222 );
+	p.showInfo();
+	p2.showInfo();
+
+}
+int main() {
+	test();
+	system("pause");
+	return 0;
+}
