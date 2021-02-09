@@ -1,0 +1,45 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+//
+template<class T1, class T2>
+class Person;
+
+template<class T1, class T2>
+void showInfo2(Person<T1, T2> p) {
+	cout << "姓名：" << p.name << " 年龄：" << p.age << endl;
+}
+
+template<class T1,class T2>
+class Person {
+	//全局函数 类内实现
+	friend void showInfo(Person<T1,T2> p) {
+		cout << "姓名：" << p.name << " 年龄：" << p.age << endl;
+	}
+
+	//全局函数 类外实现
+	//加空模板参数列表
+	//需要然编译器在之前就知道函数的存在
+	friend void showInfo2<>(Person<T1,T2> p);
+public:
+	Person(T1 name, T2 age) {
+		this->name = name;
+		this->age = age;
+	}
+private:
+	T1 name;
+	T2 age;
+};
+
+
+void test() {
+	Person<string,int> p("Tom",2);
+	showInfo(p);
+	showInfo2(p);
+}
+int main() {
+	test();
+	system("pause");
+	return 0;
+}
