@@ -1,0 +1,91 @@
+#include<iostream>
+#include <string>
+#include<vector>
+#include<algorithm>		// 标准算法的头文件
+using namespace std;
+
+class Person {
+public:
+	Person(string name,int age) {
+		this->name = name;
+		this->age = age;
+	}
+	string name;
+	int age;
+};
+
+void myPrint(const Person &p) {
+	cout << "姓名：" << p.name << ",年龄：" << p.age << endl;
+}
+
+//vector
+void test() {
+	// 创建了一个vector容器、数组
+	vector<Person> v;
+
+	Person p1("aaa",19);
+	Person p2("bbb", 13);
+	Person p3("ccc", 15);
+	Person p4("ddd", 29);
+	Person p5("eee", 17);
+
+	//向容器中出入数据   尾插法
+	v.push_back(p1);
+	v.push_back(p2);
+	v.push_back(p3);
+	v.push_back(p4);
+	v.push_back(p5);
+
+	//通过迭代器访问
+	vector<Person>::iterator itBegin = v.begin();		// 起始迭代器  指向容器中第一个元素
+	vector<Person>::iterator itEnd = v.end();		// 结束迭代器  指向容器中最后一个元素的下一个位置
+	cout << "v.begin()的数据类型" << typeid(itBegin).name() << endl;
+	cout << "v.end()的数据类型" << typeid(itEnd).name() << endl;
+
+	// (1)						迭代器是一次性的
+	/*while (itBegin!=itEnd)
+	{
+		cout << *itBegin << endl;
+		itBegin++;
+	}*/
+
+	//(2)
+	//for (vector<Person>::iterator it = v.begin();it!=v.end();it++) {
+	//	//cout << "姓名：" << (*it).name << "年龄：" << (*it).age << endl;
+	//	cout << "姓名：" << it->name << ",年龄：" << it->age << endl;
+	//}
+
+	//(3)
+	for_each(v.begin(), v.end(), myPrint);		//  传入的是容器中的数据
+
+}
+// 容器全嵌套
+void test2() {
+	vector<vector<int>> v;
+	vector<int> v1;
+	vector<int> v2;
+	vector<int> v3;
+	vector<int> v4;
+	for (int i = 0;i < 4; i++) {
+		v1.push_back(i+1);
+		v2.push_back(i+2);
+		v3.push_back(i+3);
+		v4.push_back(i+4);
+	}
+	v.push_back(v1);
+	v.push_back(v2);
+	v.push_back(v3);
+	v.push_back(v4);
+	for (vector < vector<int>>::iterator it = v.begin();it < v.end();it++) {
+		for (vector<int>::iterator vit = (*it).begin();vit < (*it).end();vit++) {		// 不要忘了，迭代器是类似指针的存在
+			cout << *vit << "\t";
+		}
+		cout << endl;
+	}
+}
+int main() {
+	//test();
+	test2();
+	system("pause");
+	return 0;
+}
