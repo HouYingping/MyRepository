@@ -169,10 +169,10 @@ void test5() {
 	cout << "v1的大小：" << v1.size() << endl;
 
 	//重新指定vector大小
-	v1.resize(15);				// 如果大于原来的容量，则默认用0填充
+	v1.resize(15);				// 如果大于原来的大小时，则默认用0填充
 	//v1.resize(15,250);		//	通过第二个参数指定填充元素
 	printVector(v1);
-	v1.resize(5);				// 如果比原来的小，则多余元素删除
+	v1.resize(5);				// 如果比原来的大小，则多余元素删除
 	printVector(v1);
 }
 /*/
@@ -189,13 +189,32 @@ at()		同上
 front()		获取第一个元素
 back()		后获取最后一元素
 */
-
+// 容器交换			名字和容器的连接交换了
+// vector<T>(v)swap(v)		可以用其实现一个收缩内存的效果，也是手动释放内存	根据已有容器创建一个容量小的但是及size相同的容器，然后进行交换
+void test6() {
+	vector<int> v1;
+	for (int i = 0;i < 10;i++) {
+		v1.push_back(i);
+	}
+	vector<int> v2;
+	for (int i = 10;i >0;i--) {
+		v2.push_back(i);
+	}
+	printf("交换后：\n");
+	printVector(v1);
+	printVector(v2);
+	v1.swap(v2);
+	printf("交换后：\n");
+	printVector(v1);
+	printVector(v2);
+}
 int main() {
 	//test();
 	//test2();
 	//test3();
 	//test4();
-	test5();
+	//test5();
+	test6();
 	system("pause");
 	return 0;
 }
