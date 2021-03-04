@@ -208,13 +208,31 @@ void test6() {
 	printVector(v1);
 	printVector(v2);
 }
+/*
+reserve(int len)		容器预留len个元素的长度,预留位置不初始化，不能访问
+*/
+void test7(){
+	vector<int> v;
+	int *p = NULL;
+	int num = 0;
+	v.reserve(100000);		// 扩展次数变少了
+	for (int i = 0;i < 10000;i++) {
+		v.push_back(i);
+		if (p!=&v[0]) {
+			p = &v[0];
+			num++;		// 进行动态扩展了多少次
+		}
+	}
+	cout << "num = " << num << endl;
+}
 int main() {
 	//test();
 	//test2();
 	//test3();
 	//test4();
 	//test5();
-	test6();
+	//test6();
+	test7();
 	system("pause");
 	return 0;
 }
