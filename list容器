@@ -1,0 +1,70 @@
+#include<iostream>
+#include<string>
+#include<list>
+using namespace std;
+/*
+list链表，物理存储单元上非连续的存储结构，数据元素的逻辑顺序是通过链表中的指针来实现的
+增删快，遍历慢，占用空间大
+节点：数据域，指针域
+STL中的链表是一个“双向循环链表”
+最后一个数据元素的指针指向为NULL
+*/
+void printList(const list<int> &lst) {
+	for (list<int>::const_iterator lit = lst.begin();lit!=lst.end();lit++) {		// 双向循环链表，地址无大小可言
+		cout << *lit << "\t";
+	}
+	cout << endl;
+}
+void test() {
+	//构造
+	//list<T> lst;		//默认构造
+	// list(lst.beg,lst.end);	//区间构造
+	// list(n,elem)		// 含有n个elem数据
+	// list(const list &lst)	// 拷贝构造
+	list<int> lst;
+	for (int i = 0;i < 10;i++) {
+		lst.push_back(i);		// 添加数据
+	}
+	cout << "列表的大小：" << lst.size() << endl;
+	cout << "列表的第一个元素：" << lst.front() << endl;
+	cout << "列表的最后一个元素：" << lst.back() << endl;
+	//cout << *lst.begin() << endl;
+	printList(lst);
+	
+	//赋值
+	//assign(lst.begin(),lst.end())		assing(n,elem)
+	//list& operator=()
+	
+	//交换
+	list<int> lst2;
+	lst2.assign(5, 250);
+	lst.swap(lst2);
+	cout << "交换后的lst: ";
+	printList(lst);
+	cout << "交换后的lst2: ";
+	printList(lst2);
+
+	// 判断是否为空
+	// lst.empty()
+
+	// 重新指定list容器的大小
+	// lst.resize(int size[,elem])		和vector一样
+
+	/*
+	插入与删除
+	push_back()
+	push_front()
+	pop_back()
+	pop_front()
+	insert(pos,elem)	insert(pos,n.elem)	insert(pos,lst.begin(),lst.end())
+	clear()
+	erase(lst.beg(),lst.end())	erase(pos)		都是迭代器，非下标
+	remove(elem)		// 删除所有的elem值
+	*/
+}
+
+int main() {
+	test();
+	system("pause");
+	return 0;
+}
