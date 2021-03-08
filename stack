@@ -1,0 +1,38 @@
+#include<iostream>
+#include<string>
+#include<stack>
+#include<algorithm>
+using namespace std;
+/*
+栈容器，先进后出
+不容许有遍历行为
+
+
+*/
+void test() {
+	stack<int> stk;
+	// stack<int>(const stack &stk);		拷贝构造
+
+	// 赋值操作
+	//stack& operator=(const stack &stk);   重载等号运算符
+
+	// 数据存取
+	for (int i = 0;i < 10;i++) {
+		stk.push(i);			// 向栈顶添加元素
+	}
+	int elem = stk.top();				//范湖栈顶元素
+	
+	cout << "栈内元素个数：" << stk.size() << endl;
+	while (!stk.empty())
+	{
+		cout << "栈顶元素：" << stk.top() << endl;
+		stk.pop();					// 从栈顶移除元素	，没有返回值	出栈
+	}
+
+}
+
+int main() {
+	test();
+	system("pause");
+	return 0;
+}
