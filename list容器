@@ -1,6 +1,7 @@
 #include<iostream>
 #include<string>
 #include<list>
+//#include<algorithm>
 using namespace std;
 /*
 list链表，物理存储单元上非连续的存储结构，数据元素的逻辑顺序是通过链表中的指针来实现的
@@ -8,12 +9,17 @@ list链表，物理存储单元上非连续的存储结构，数据元素的逻�
 节点：数据域，指针域
 STL中的链表是一个“双向循环链表”
 最后一个数据元素的指针指向为NULL
+list迭代器是双向迭代器，不支持跳跃式的访问，所以list容器不能使用下标进行随机访问
+	it++可以，但是it=it+1是错误的（随机访问）
 */
 void printList(const list<int> &lst) {
 	for (list<int>::const_iterator lit = lst.begin();lit!=lst.end();lit++) {		// 双向循环链表，地址无大小可言
 		cout << *lit << "\t";
 	}
 	cout << endl;
+}
+bool myCompare(int v1,int v2) {
+	return v1 > v2;
 }
 void test() {
 	//构造
@@ -26,6 +32,7 @@ void test() {
 		lst.push_back(i);		// 添加数据
 	}
 	cout << "列表的大小：" << lst.size() << endl;
+	//数据存取
 	cout << "列表的第一个元素：" << lst.front() << endl;
 	cout << "列表的最后一个元素：" << lst.back() << endl;
 	//cout << *lst.begin() << endl;
@@ -61,10 +68,63 @@ void test() {
 	erase(lst.beg(),lst.end())	erase(pos)		都是迭代器，非下标
 	remove(elem)		// 删除所有的elem值
 	*/
-}
 
+	// 排序和反转
+	lst2.reverse();
+	printList(lst2);
+	//sort(lst2.begin(), lst2.end());		所有不支持随机访问迭代器的容器，不可以使用标准算法
+										//  不支持随机访问迭代器的容器，内部会提供对应的一些算法
+	cout << "升序： ";
+	lst2.sort();
+	printList(lst2);
+	//降序排序
+	cout << "降序： ";
+	lst2.sort(myCompare);		// 添加了一个回调函数,给个函数名就可以了
+	printList(lst2);
+}
+class Person {
+public:
+	Person(string name,int age,int height) {
+		this->name = name;
+		this->age = age;
+		this->height = height;
+	}
+	string name;
+	int age;
+	int height;
+};
+bool comparePerson(Person &p1,Person &p2) {
+	if (p1.age == p2.age)
+		return p1.height>p2.height;		// 身高降序
+	else
+		return p1.age<p2.age;		// 年龄升序
+}
+void test2() {
+	list<Person> lst;
+	Person p1("刘备",35,175);
+	Person p2("曹操", 45, 180);
+	Person p3("孙权", 40, 170);
+	Person p4("赵云", 25, 190);
+	Person p5("张飞", 35, 160);
+	Person p6("关羽", 35, 200);
+	lst.push_back(p1);
+	lst.push_back(p2);
+	lst.push_back(p3);
+	lst.push_back(p4);
+	lst.push_back(p5);
+	lst.push_back(p6);
+	for (list<Person>::iterator it = lst.begin();it != lst.end();it++) {
+		cout << "姓名：" << (*it).name << " 年龄：" << it->age << " 身高：" << it->height << endl;
+	}
+	//高级排序
+	cout << "—————————————年龄升序，身高降序————————————" << endl;
+	lst.sort(comparePerson);
+	for (list<Person>::iterator it = lst.begin();it != lst.end();it++) {
+		cout << "姓名：" << (*it).name << " 年龄：" << it->age << " 身高：" << it->height << endl;
+	}
+}
 int main() {
-	test();
+	test2();
 	system("pause");
 	return 0;
 }
