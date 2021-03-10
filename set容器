@@ -1,0 +1,61 @@
+#include<iostream>
+#include<string>
+#include<set>
+//using namespace std;
+/*
+set容器
+所有元素都会在插入时自动被排序		和Python很不同
+set/multiset属于关联式容器，底层结构是用“二叉树”实现
+
+set和multiset的区别：
+	set不允许容器中有重复的元素
+	multiset允许容器中有重复的元素
+*/
+void printSet(const std::set<int> &s) {
+	for (std::set<int>::const_iterator it = s.begin();it != s.end();it++) {
+		std::cout << *it << "\t";
+	}
+	std::cout << std::endl;
+}
+void test() {
+	//构造
+	std::set<int> s1;
+	for (int i = 9;i >= 0 ;i--) {	// 默认会排序插入，即使是倒序插入的输出结果也不会变
+		s1.insert(i);				// 插入数据，有且只有insert
+	}
+	s1.insert(5);		// 插入重复的数据	不报错，但是无变化
+	printSet(s1);
+
+	//拷贝构造
+	std::set<int> s2(s1);
+	printSet(s2);
+	//赋值
+	std::set<int> s3 = s2;
+	printSet(s3);
+}
+void test2() {
+	std::set<int> s1;
+	for (int i = 5;i > 0;i--) {
+		s1.insert(i);			
+	}
+	std::cout << "s1大小：" << s1.size() << std::endl;
+	std::cout << "s1是否为空：" << s1.empty() << std::endl;
+	std::set<int> s2;
+	s2.insert(10);
+	s2.insert(20);
+	s2.insert(30);
+	s2.insert(40);
+	s2.insert(50);
+	printSet(s1);
+	printSet(s2);
+	std::cout << "交换后：" << std::endl;
+	s1.swap(s2);
+	printSet(s1);
+	printSet(s2);
+
+}
+int main() {
+	test2();
+	system("pause");
+	return 0;
+}
