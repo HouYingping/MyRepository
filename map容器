@@ -1,0 +1,156 @@
+#include<iostream>
+#include<string>
+#include<map>
+#include<vector>
+#include<ctime>
+using namespace std;
+/*
+map存的是键值对形式的数据，都是pair对组，并且是有序的(除了有序，和Python中的dict是差不多的)
+map/multimap是关联式容器，底层结构是二叉树
+map不允许容器中有重复的key元素
+multimap可以有重复的key元素
+*/
+void printMap(const map<int,int> &m) {
+	for (map<int, int>::const_iterator cit = m.begin();cit != m.end();cit++) {
+		cout << "key = " << cit->first <<" value = " << cit->second << endl;
+	}
+}
+void test() {
+	map<int, int> mp;
+	for (int i = 0;i < 5;i++) {
+		mp.insert(pair<int,int>(i,i+5));	// 可以通过pair匿名对组来添加数据，注意这里的参数只有一个，且是键值对，不能通过两个参数来添加数据
+	}
+	mp.insert(pair<int, int>(5, 10));
+	printMap(mp);
+	cout << "map的大小：" << mp.size() << endl;
+	if (mp.empty()) {
+		cout << "map为空" << endl;
+	}
+	else {
+		cout << "map不为空" << endl;
+	}
+	
+	map<int, int> m;
+	for (int i = 0;i < 5;i++) {
+		m.insert(pair<int, int>(i*10, i*10 + 50));
+	}
+	printMap(m);
+	cout << "交换后：" << endl;
+	mp.swap(m);
+	printMap(mp);
+	printMap(m);
+}
+void test2() {
+	map<int, int> mp;
+	//插入数据
+	mp.insert(pair<int, int>(1, 6));
+	//方式2
+	mp.insert(make_pair(2, 7));
+	//方式3
+	mp.insert(map<int, int>::value_type(3, 8));
+	//方式4		不建议使用
+	mp[4] = 9;
+	cout << mp[5] << endl;		// 不会有输出，而是在map中进行插入，value值默认是0
+	cout << "mp[4] = " << mp[4] << endl;
+	printMap(mp);
+
+	// 删除
+	mp.erase(mp.begin());
+	printMap(mp);
+
+	mp.erase(3);	//根据key来删除键值对
+	printMap(mp);
+
+	//清空
+	/*mp.erase(mp.begin(), mp.end());
+	mp.clear();*/
+}
+void test3() {
+	map<int, int> m;
+	for (int i = 0;i < 5;i++) {
+		m.insert(make_pair(i, i * 2 + 1));
+	}
+	// find查找,找到则返回目标元素的迭代器，否则返回末尾元素end()迭代器
+	map<int, int>::iterator pos = m.find(3);
+	if (pos != m.end()) {
+		printf("找到元素了 key = %d,value = %d\n", pos->first, pos->second);
+	}
+	else {
+		printf("未找到元素");
+	}
+	//count  统计 使用和 set与multiset相同
+
+}
+// 排序
+class MyCompare{
+public:
+	bool operator()(int v1, int v2) {
+		return v1 > v2;		// 降序
+	}
+};
+void test4() {
+	map<int, int,MyCompare> m;
+	m.insert( make_pair(1, 6));
+	m.insert(make_pair(2, 7));
+	m.insert(make_pair(3, 8));
+	m.insert(make_pair(4, 9));
+	for (map<int, int, MyCompare>::iterator it = m.begin();it != m.end();it++) {
+		cout << "key = " << it->first << " value = " << it->second << endl;
+	}
+	 
+}
+// 案例
+class Worker {
+public:
+	string m_name;
+	int m_salary;
+};
+void creatWorker(vector<Worker> &v) {
+	string nameSeed = "ABCDEFGHIJ";
+	cout << nameSeed.size() << endl;
+	for (int i = 0;i < 10;i++) {
+		Worker worker;
+		worker.m_name = "员工";
+		worker.m_name += nameSeed[i];
+		cout << worker.m_name << endl;
+		worker.m_salary = rand()%10000+10000;		// 注意rand()的取值范围
+		v.push_back(worker);
+	}
+}
+void setGroup(const vector<Worker> &v,multimap<int,Worker> &m) {
+	for (vector<Worker>::const_iterator it = v.begin();it != v.end();it++) {
+		m.insert(make_pair(rand()%3, *it));
+	}
+}
+void printWorker(const multimap<int, Worker> &m) {
+	string ptmt[] = { "策划部","美术部","研发部" };
+	int len = sizeof(ptmt) / sizeof(ptmt[0]);
+	for(int i = 0;i < len;i++){
+		int count = m.count(i);
+		multimap<int, Worker>::const_iterator pos = m.find(i);
+		int index = 0;
+		cout << "----------------------------" << endl;
+		for (;pos != m.end() && index < count;pos++, index++) {
+			cout << "partment:" << ptmt[i] << " name:" << pos->second.m_name << " salary:" << pos->second.m_salary << endl;
+		}
+	}
+}
+void test5() {
+	vector<Worker> v;
+	creatWorker(v);
+	/*for (vector<Worker>::iterator it = v.begin();it < v.end();it++) {
+		cout << "姓名：" << it->m_name << " 薪资：" << it->m_salary << endl;
+	}*/
+	multimap<int, Worker> m;
+	setGroup(v,m);
+	printWorker(m);
+}
+int main() {
+	srand((unsigned int)time(NULL));
+	test5();
+	cout << true << endl;
+	cout << false << endl;
+	//cout << "AB" + "CD" << endl;
+	system("pause");
+	return 0;
+}
