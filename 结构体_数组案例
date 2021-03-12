@@ -1,0 +1,67 @@
+#include <iostream>
+#include <string>
+#include <ctime>
+using namespace std;
+struct Hero {
+	string name;
+	int age;
+	string sex;
+};
+void printHero(Hero heroArray[], int len) {
+	for (int i = 0;i < len;i++) {
+		cout << "姓名：" << heroArray[i].name << " 年龄：" << heroArray[i].age
+			<< "性别：" << heroArray[i].sex << endl;
+	}
+}
+//数组的值传递可以对原数据造成改变
+void bubbleSort(Hero heroArray[], int len) {
+	for (int i = 0;i < len-1;i++) {
+		/*for (int j = 0;j < len-1-i ;j++) {
+			if (heroArray[j].age > heroArray[j + 1].age) {
+				Hero temp = heroArray[j];
+				heroArray[j] = heroArray[j + 1];
+				heroArray[j + 1] = temp;
+			}
+		}*/
+		/*cout << endl;
+		printHero(heroArray,len);
+		cout << endl;*/
+		Hero *p = heroArray;
+		for (int j = 0;j < len-1-i;j++) {
+			if ((*p).age > (*(p+1)).age) {
+				Hero temp = *p;
+				*p = *(p+1);
+				*(p + 1) = temp;
+			}
+			p++;
+		}
+	}
+}
+
+int main() {
+
+	srand((unsigned int)time(NULL));	//不然的话产生的随机数还是会有一定的规律
+	for (int i = 0;i < 5;i++) {
+		//int random = rand()%60;		// 0~59
+		int random = rand() % 61 + 40;		// 0~50
+		cout << random << endl;
+	}
+
+	Hero heroArray[5] = {
+		{"刘备",23,"男"},
+		{"关羽",22,"男"},
+		{"张飞",20,"男"},
+		{"赵云",21,"男"},
+		{"貂蝉",19,"女"}
+	};
+	int len = sizeof(heroArray) / sizeof(heroArray[0]);
+	for (int i = 0;i < len;i++) {
+		cout << "姓名：" << heroArray[i].name << " 年龄：" << heroArray[i].age
+			<< "性别：" << heroArray[i].sex << endl;
+	}
+	bubbleSort(heroArray,len);
+	cout << "拍序后的输出：" << endl;
+	printHero(heroArray,len);
+	system("pause");
+	return 0;
+}
