@@ -33,6 +33,36 @@ void test() {
 	std::set<int> s3 = s2;
 	printSet(s3);
 }
+void test3() {
+	std::set<int> s1;
+	s1.insert(5);
+	s1.insert(3);
+	s1.insert(2);
+	s1.insert(6);
+	printSet(s1);
+	//删除
+	s1.erase(s1.begin());
+	std::cout << "删除第一个元素后:" << std::endl;
+	printSet(s1);
+	// 删除具体元素
+	s1.erase(5);
+	printSet(s1);
+	//清空
+	// s1.erase(s1.begin(),s1.end());
+	// s1.clear();
+	// printSet(s1);
+
+	//查找	find(key),找到返回迭代器(不是位置)，找不到返回set.end()
+	if(s1.find(30) != s1.end()){
+		std::cout <<"找到30了" << std::endl;
+	}
+	else {
+		std::cout << "找不到30" << std::endl;
+	}
+	//统计key元素的个数，不是0就是1，multiset的话可以有其他情况
+	std::cout << "3的个数：" << s1.count(3) << std::endl;
+
+}
 void test2() {
 	std::set<int> s1;
 	for (int i = 5;i > 0;i--) {
@@ -54,8 +84,41 @@ void test2() {
 	printSet(s2);
 
 }
+//set和mulitset的区别
+void test4() {
+	std::set<int> s2;
+	s2.insert(10);
+	s2.insert(20);
+	s2.insert(30);
+	s2.insert(40);
+	std::pair<std::set<int>::iterator,bool> ret = s2.insert(50);
+	if (ret.second) {
+		std::cout << "第一次插入成功！" << std::endl;
+	}
+	else {
+		std::cout << "第一次插入失败！" << std::endl;
+	}
+	ret = s2.insert(50);
+	if (ret.second) {
+		std::cout << "第二次插入成功！" << std::endl;
+	}
+	else {
+		std::cout << "第二次插入失败！" << std::endl;
+	}
+	printSet(s2);
+	//multiset在插入的时候就不会检测
+	std::multiset<int> ms;
+	ms.insert(10);
+	ms.insert(10);
+	ms.insert(10);
+	ms.insert(10);
+	for (std::multiset<int>::iterator it = ms.begin();it != ms.end();it++) {
+		std::cout <<*it<<"\t";
+	}
+	std::cout << std::endl;
+}
 int main() {
-	test2();
+	test4();
 	system("pause");
 	return 0;
 }
