@@ -117,8 +117,28 @@ void test4() {
 	}
 	std::cout << std::endl;
 }
+//排序		改变set的排序规则需要在插入数据之前就得设置好排序规则
+class MyCompare{
+public:
+	bool operator()(int v1,int v2) {		// 仿函数
+		return v1 > v2;
+	}
+
+};
+
+void test5() {
+	std::set<int,MyCompare> s1;		// 仿函数
+	for (int i = 5;i > 0;i--) {
+		s1.insert(i);
+	}
+	for (std::set<int, MyCompare>::iterator it = s1.begin();it != s1.end();it++) {
+		std::cout << *it << "\t";
+	}
+	std::cout << std::endl;
+}
 int main() {
-	test4();
+	//test4();
+	test5();
 	system("pause");
 	return 0;
 }
