@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+int main() {
+	/*
+	数组的特点：地址空间连续
+				数据类型相同
+	类型 数组名[长度]；					定义数组的时候需要告诉初始的长度
+	类型 数组名[长度] = {val1,val2,...}
+	类型 数组名[] = {val1,val2,...}
+	*/
+	int arr[10] = { 0,1,2,3,4,5,54,23,53 };  //没给值的初始值为1
+	
+	// 数组名			直接输出数组名输出的是数组的首地址
+	// 数组名是一个常量
+	cout << arr << endl;
+	cout << arr[2] << endl;
+	for (int i = 0;i < sizeof(arr)/sizeof(arr[0]);i++) {		// 获取数组长度
+		cout << arr[i] << endl;
+	}
+	cout << "arr[0]的地址\t" << (int)&arr[0] << endl;
+	cout << "arr[1]的地址\t" << (int)&arr[1] << endl;		//整数4个字节
+
+	system("pause");
+	return 0;
+}
