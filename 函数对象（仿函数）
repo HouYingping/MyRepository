@@ -1,8 +1,10 @@
 #include<iostream>
 #include<string>
+#include<vector>
+#include<algorithm>
 using namespace std;
 /*
-函数对象（仿函数）
+函数对象（仿函数）			注意词汇描述：对象
 函数对象在使用时，可以像普通函数那样调用，可以有参数，可以有返回值
 函数对象超出普通函数的概念，函数对象可以有自己的状态		可以记录调用次数等等
 函数对象可以作为参数传递
@@ -13,8 +15,37 @@ public:
 		cout << test << endl;
 	}
 };
+void test1() {
+	Myprint()("hello");
+}
+/*
+仿函数 返回值类型是bool数据类型，称为谓词
+operator()接收一个参数，那么叫做一元谓词
+operator()接收两个参数，那么叫做二元谓词 
+*/
+class GreaterFive {
+public:
+	bool operator()(int v) {
+		return v > 5;
+	}
+};
+void test2() {
+	vector<int> v;
+	for (int i = 0;i < 10;i++) {
+		v.push_back(i);
+	}
+	//查找容器中有没有大于5的数字
+	//GreaterFive()匿名函数对象
+	vector<int>::iterator it = find_if(v.begin(), v.end(), GreaterFive());
+	if (it == v.end()) {
+		cout << "未找到" << endl;
+	}
+	else {
+		cout << "找到了" << endl;
+	}
+}
 int main() {
-
+	test2();
 	system("pause");
 	return 0;
 }
