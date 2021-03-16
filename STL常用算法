@@ -1,0 +1,265 @@
+#include<iostream>
+#include<string>
+#include<vector>
+#include<algorithm>
+//#include<functional>
+	// 
+#include<ctime>
+#include<numeric>		
+	// accumulate的头文件
+using namespace std;
+
+/*
+算法主要由头文件<algorithm>、<functional>、<numeric>组成
+<algorithm>所有STL头文件中最大的一个，范围涉及到比较、交换、查找、遍历操作、复制、修改等等
+<numeric>体积很小，只包括几个在序列上面进行简单数学运算的模板函数
+<functional>定义了一些模板类，用以声明函数对象
+*/
+//常用遍历算法	for_each、transform
+//普通函数
+void printVector(int val) {
+	cout << val << " ";
+}
+//仿函数
+class MyPrint {
+public:
+	void operator()(int val) {
+		cout << val << " ";
+	}
+};
+class Transform {
+public:
+	int operator()(int v) {
+		return v;
+	}
+};
+void test() {
+	vector<int> v;
+	for (int i = 0;i < 8;i++) {
+		v.push_back(i);
+	}
+	//for_each
+	for_each(v.begin(),v.end(), printVector);		// 普通方法，放的是函数名
+	cout << endl;
+
+	for_each(v.begin(), v.end(), MyPrint());		// 仿函数，放的是实例对象
+	cout << endl;
+
+	//transform,	冗余
+	vector<int> vTarget;	//目标容器
+	vTarget.resize(v.size());
+	transform(v.begin(),v.end(),vTarget.begin(),Transform());
+	for_each(vTarget.begin(),vTarget.end(), MyPrint());
+	cout << endl;
+}
+/*
+常用查找算法
+find
+find_if		条件查找元素
+adjacent_find	查找相邻重复元素
+binary_search	二分查找
+count		统计元素个数
+count_if	条件统计
+*/
+class Person {
+public:
+	Person(string name ,int age) {
+		this->name = name;
+		this->age = age;
+	}
+	bool operator==(const Person &p) {				// 自定义数据类型查找需要重写operator==，定义比较方式
+		if (this->age == p.age) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	string name;
+	int age;
+};
+class Less17 {
+public:
+	bool operator()(const Person &p) {
+		if (p.age<17) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+};
+void test2() {
+	vector<Person> v;
+	Person p1("王昭君",18);
+	Person p2("杨玉环",16 );
+	Person p3("西施",19 );
+	Person p4("貂蝉", 18);
+	Person p5("孙悟空",10000);
+	Person p6("孙悟空", 10000);
+	v.push_back(p1);
+	v.push_back(p2);
+	v.push_back(p3);
+	v.push_back(p4);
+	v.push_back(p5);
+	v.push_back(p6);
+	Person p("貂蝉", 17);
+	// find
+	vector<Person>::iterator pos = find(v.begin(),v.end(),p);
+	if (pos != v.end()) {
+		cout << "找到貂蝉了！" << endl;
+	}
+	else {
+		cout << "貂蝉不在" << endl;
+	}
+	// find_if
+	pos = find_if(v.begin(), v.end(), Less17());
+	if (pos!=v.end()) {
+		cout << "找到年龄小于17的美人了：";
+		for (;pos < v.end();pos = find_if(++pos, v.end(), Less17())) {
+			cout << pos->name << " ";
+		}
+		cout << endl;
+	}
+	else {
+		cout << "没有年龄小于17的美人" << endl;
+	}
+	//adjacent_find		查找“相邻的”“重复的”元素	查找到会返回相邻元素第一个位置的迭代器
+	pos = adjacent_find(v.begin(),v.end());
+	if (pos != v.end()) {
+		cout << "有伪装者," << pos->name << "被伪装了" << endl;
+	}
+	else {
+		cout << "无伪装者，安全！" << endl;
+	}
+	//binary_search		查找容器中是否有指定元素，并不返回位置
+	// 前提是容器中必须是有序序列
+	vector<int> v2;
+	for (int i = 0;i < 10;i++) {
+		v2.push_back(i);
+	}
+	v2.push_back(2);		// 无序了		1 2 3 4 5 6 7 8 9 2    会先进行判断是否为有序序列
+	bool ret = binary_search(v2.begin(),v2.end(),9);
+	if (ret) {
+		cout << "容器中找到了目标元素" << endl;
+	}
+	else {
+		cout << "容器中未能找到指定元素" << endl;
+	}
+	//count
+	Person p7("甄姬",18);
+	int ct = count(v.begin(),v.end(),p7);
+	printf("一共找到%d个年龄和甄姬相同的美人\n",ct);
+	//count_if
+	cout<< "年龄小于17岁的美人有" << count_if(v.begin(), v.end(), Less17())<< "个" <<endl;
+}
+//排序算法
+//sort		对容器内元素进行排序
+//random_shuffle	打乱顺序
+// merge	容器合并，并存储到另一容器中,	两个容器必须是有序的，存储到第三个容器，容器需要分配空间
+//			merge(iterator beg1,iterator end1,iterator beg2,iterator end2,iterator dest)
+//reverse	反转指定范围的元素
+
+/*
+常用拷贝和替换算法
+*/
+void myprint(int &val) {
+	cout << val << "\t";
+}
+class RepCond {
+public:
+	bool operator()(const int &val) {
+		return val > 5;
+	}
+};
+void test3() {
+	vector<int> v;
+	for (int i = 0;i < 10;i++) {
+		v.push_back(i);
+	}
+	vector<int> v2;
+	v2.resize(v.size());
+	copy(v.begin(), v.end(), v2.begin());
+	for_each(v2.begin(),v2.end(),myprint);
+	cout << endl;
+	//replace		替换
+	replace(v2.begin(),v2.end(),5,250);		// 将所有目标元素都替换成指定元素
+	for_each(v2.begin(),v2.end(),myprint);
+	cout << endl;
+	//replace_if
+	replace_if(v2.begin(), v2.end(), RepCond(), 500);	//谓词， 将所有满足条件的元素都替换成指定元素
+	for_each(v2.begin(), v2.end(), myprint);
+	cout << endl;
+	cout << "交换v,v2后：" << endl;
+	//swap		互换两个同类型的容器
+	//v.swap(v2);
+	swap(v,v2);
+	for_each(v.begin(), v.end(), myprint);
+	cout << endl;
+	for_each(v2.begin(), v2.end(), myprint);
+	cout << endl;
+}
+//常用算术生成算法
+void test4() {
+	vector<int> v;
+	for (int i = 0;i < 10;i++) {
+		v.push_back(i);
+	}
+	// accumulate					起始累加值
+	cout << accumulate(v.begin(),v.end(),0) << endl;	// 求序列的和
+}
+// 填充
+void test5() {
+	vector<int> v;
+	v.resize(5);
+	fill(v.begin(), v.end(), 250);
+	for_each(v.begin(),v.end(),myprint);
+	cout << endl;
+}
+//常用集合算法
+void test6() {
+	//前提，两个集合必须是同一类型，且必须是升序的
+	vector<int> v1;
+	vector<int> v2;
+	for (int i = 10;i>5;i--) {
+		v1.push_back(-i);
+		v2.push_back(-2*i+1);
+	}
+	vector<int> vTarget;
+	vTarget.resize(v1.size()>v2.size()?v2.size():v1.size());		//提前开辟空间
+	//vTarget.resize(min(v1.size(),v2.size()))
+	cout << "v1:" << endl;
+	for_each(v1.begin(), v1.end(), myprint);
+	cout << endl << "v2:" << endl;
+	for_each(v2.begin(), v2.end(), myprint);
+	//set_intersection		交集
+	vector<int>::iterator itEnd = set_intersection(v1.begin(), v1.end(),v2.begin(),v2.end(),vTarget.begin());
+	cout << endl << "v1,v2的交集：" << endl;
+	for_each(vTarget.begin(),itEnd, myprint);		// 使用返回的迭代器位置，因为开辟的空间一般都会比实际交集要大，默认填充元素是0，
+													// 如果是新的迭代器的结尾那么结果就会有多余的0
+	cout << endl;
+
+	//并集		会去除重复的元素	两个序列升序
+	vTarget.resize(v1.size()+v2.size());
+	itEnd = set_union(v1.begin(), v1.end(), v2.begin(), v2.end(), vTarget.begin());
+	cout << "v1,v2的并集：" << endl;
+	for_each(vTarget.begin(), itEnd, myprint);
+	cout << endl;
+
+	//差集		谁-谁				两个序列升序
+	vTarget.resize(max(v1.size() , v2.size()));
+	itEnd = set_difference(v1.begin(), v1.end(), v2.begin(), v2.end(), vTarget.begin());
+	cout << "v1,v2的差集：" << endl;
+	for_each(vTarget.begin(), itEnd, myprint);
+	cout << endl;
+	vTarget.resize(max(v1.size(), v2.size()));
+	itEnd = set_difference(v2.begin(), v2.end(), v1.begin(), v1.end(), vTarget.begin());
+	cout << "v2,v1的差集：" << endl;
+	for_each(vTarget.begin(), itEnd, myprint);
+	cout << endl;
+}
+int main() {
+	test6();
+	system("pause");
+	return 0;
+}
