@@ -1,0 +1,50 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Student {
+	string name;
+	int score;
+}s3;
+
+struct Teacher {
+	string name;
+	int age;
+	Student student;		//辅导的学生 可以是数组指针，多个学生
+	void power() {
+		cout << "给我站好了！！" << endl;		// C++与C在结构体不同之处C++的结构体中可以有成员函数,可以从别的类继承，可以被别的类继承，可以有虚函数
+	}
+};
+int main() {
+	
+	struct Student s;
+	s.name = "张三";
+	s.score = 50;
+	cout << "姓名："<<s.name <<" 成绩："<< s.score << endl;
+
+	//struct关键字可以省略
+	Student s2 = { "李四",60 };
+	cout << "姓名：" << s2.name << " 成绩：" << s2.score << endl;
+
+	s3.name = "王五";
+	s3.score = 70;
+	cout << "姓名：" << s3.name << " 成绩：" << s3.score << endl;
+
+	Student students[3] = { s,s2,s3 };
+	cout << sizeof(students) << endl;
+	for (int i = 0;i < sizeof(students)/sizeof(students[0]);i++) {
+		cout << "姓名：" << students[i].name << " 成绩：" << students[i].score << endl;
+	}
+
+	//指针访问结构体，“ -> ”
+	Student *p = &s;
+	cout << "指针访问方式，姓名：" << p->name << " 成绩:" << p->score << endl;
+
+	//结构体嵌套
+	Teacher t = { "老王",50 };
+	t.student = s;
+	t.power();
+
+	system("pause");
+	return 0;
+}
