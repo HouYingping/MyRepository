@@ -1,0 +1,14 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+	//输入
+	int a;		// 未经初始化不能使用
+	//cout << "初始值：" << a << endl;
+	cout << "请给整型变量a赋值：";
+	cin >> a;
+	cout << "输入数据a:" << a << endl;
+
+	system("pause");
+	return 0;
+}
